@@ -38,5 +38,5 @@ export async function getGroups() {
   );
   const response = await groupIds.json();
   const indexes = await getIds(response.ids);
-  return await getDetails(indexes);
+  return getDetails(indexes);
 }

@@ -32,6 +32,7 @@ export default function List({name, indexes, navigation}) {
       </TouchableOpacity>
     );
   };
+
   return (
     <View>
       <Text style={styles.groupName}>{name.toUpperCase()}</Text>
@@ -39,6 +40,7 @@ export default function List({name, indexes, navigation}) {
         style={styles.flatList}
         data={indexes}
         renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     </View>

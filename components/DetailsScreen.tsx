@@ -1,14 +1,20 @@
 import React from 'react';
 import {Text, View, StyleSheet, FlatList} from 'react-native';
 import format from '../helpers/formatValues';
+const DETAILS_PROPERTIES = [
+  'usdCapitalization',
+  'percentageChange',
+  'ethPriceInWei',
+];
+
+const rebaseArray = (obj) => {
+  let arr = Object.entries(obj);
+  return arr.filter((el) => DETAILS_PROPERTIES.includes(el[0]));
+};
 
 const renderRow = ({item}) => {
   let name = item[0],
     number = item[1];
-
-  if (item[0] === 'id' || item[0] === 'name' || item[0] === 'usdPriceInCents') {
-    return;
-  }
 
   switch (item[0]) {
     case 'usdCapitalization':
@@ -18,12 +24,10 @@ const renderRow = ({item}) => {
     case 'percentageChange':
       name = 'Total Gain';
       number += '%';
-
       break;
     case 'ethPriceInWei':
       name = 'Price';
       number = format(number);
-
       break;
     default:
       break;
@@ -39,12 +43,13 @@ const renderRow = ({item}) => {
 
 export default function Details({route}) {
   const {item} = route.params;
+
   return (
     <View>
       {item && (
         <FlatList
           style={styles.flatList}
-          data={Object.entries(item)}
+          data={rebaseArray(item)}
           renderItem={renderRow}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
